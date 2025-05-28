@@ -1,0 +1,1384 @@
+/* Enhanced Consent Agenda with Drag-and-Drop */
+.resolutions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px 15px;
+    background: #e7f3ff;
+    border-bottom: 1px solid #ddd;
+}
+
+.resolution-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.refresh-resolutions {
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+    line-height: 1.2 !important;
+    min-height: auto !important;
+    height: auto !important;
+}
+
+.drag-help {
+    font-size: 11px;
+    color: #646970;
+    font-style: italic;
+}
+
+/* Sortable Resolution Items */
+.sortable-resolutions {
+    position: relative;
+}
+
+.sortable-resolution {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 8px 12px 4px;
+    border-bottom: 1px solid #f0f0f1;
+    transition: all 0.2s ease;
+    cursor: default;
+}
+
+.sortable-resolution:last-child {
+    border-bottom: none;
+}
+
+.sortable-resolution:hover {
+    background: #f8f9fa;
+}
+
+.sortable-resolution.resolution-dragging {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: rotate(2deg);
+}
+
+.resolution-drag-handle {
+    color: #999;
+    font-size: 16px;
+    cursor: move;
+    padding: 4px;
+    border-radius: 3px;
+    transition: all 0.2s ease;
+    user-select: none;
+    min-width: 20px;
+    text-align: center;
+}
+
+.resolution-drag-handle:hover {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.resolution-content {
+    flex: 1;
+    min-width: 0; /* Allows flex item to shrink */
+}
+
+.resolution-content .resolution-header {
+    margin-bottom: 6px;
+}
+
+.resolution-content .resolution-meta {
+    margin-bottom: 0;
+}
+
+/* Sort Placeholder */
+.resolution-sort-placeholder {
+    height: 60px;
+    background: #e3f2fd;
+    border: 2px dashed #2196f3;
+    border-radius: 4px;
+    margin: 4px 0;
+    position: relative;
+}
+
+.resolution-sort-placeholder::before {
+    content: "Drop here";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #2196f3;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Loading and Success States for Ordering */
+.sortable-resolutions.saving-order {
+    opacity: 0.7;
+    pointer-events: none;
+    position: relative;
+}
+
+.sortable-resolutions.saving-order::before {
+    content: "Saving order...";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #0073aa;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sortable-resolutions.order-saved {
+    background: #edfaef;
+    border-color: #00a32a;
+}
+
+.sortable-resolution.number-updated {
+    background: #fff3cd;
+    animation: numberUpdate 1s ease-out;
+}
+
+@keyframes numberUpdate {
+    0% {
+        background: #ffc107;
+        transform: scale(1.02);
+    }
+    100% {
+        background: #fff3cd;
+        transform: scale(1);
+    }
+}
+
+/* Enhanced Resolution Number Badge */
+.sortable-resolution .resolution-number {
+    background: #0073aa;
+    color: white;
+    font-weight: 600;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin-right: 10px;
+    min-width: 50px;
+    text-align: center;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.number-updated .resolution-number {
+    background: #ffc107;
+    color: #000;
+    animation: pulse 0.5s ease-in-out;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Improved Resolution Title and Meta */
+.sortable-resolution .resolution-title {
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.3;
+}
+
+.sortable-resolution .resolution-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.sortable-resolution .subject {
+    color: #646970;
+    font-size: 13px;
+    flex: 1;
+    min-width: 200px;
+}/* File: assets/agenda-builder.css */
+
+.agenda-builder-wrap {
+    margin: 20px 0;
+}
+
+.agenda-type-buttons {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.agenda-type-buttons .button-hero {
+    padding: 15px 30px;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.agenda-builder-layout {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.agenda-items-column {
+    flex: 2;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Meeting Header Section - Fixed at top */
+.meeting-header-section {
+    background: #f8f9fa;
+    border: 2px solid #0073aa;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 4px rgba(0,115,170,0.1);
+}
+
+.meeting-header-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 2fr; /* datetime, duration, location */
+    gap: 20px;
+    align-items: end;
+}
+
+.meeting-datetime-field,
+.meeting-duration-field,
+.meeting-location-field {
+    display: flex;
+    flex-direction: column;
+}
+
+.meeting-datetime-field label,
+.meeting-duration-field label,
+.meeting-location-field label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #0073aa;
+    font-size: 14px;
+}
+
+.meeting-datetime-field input,
+.meeting-duration-field select,
+.meeting-location-field select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    background: white;
+    transition: border-color 0.2s;
+}
+
+.meeting-datetime-field input:focus,
+.meeting-duration-field select:focus,
+.meeting-location-field select:focus {
+    border-color: #0073aa;
+    box-shadow: 0 0 0 2px rgba(0,115,170,0.2);
+    outline: none;
+}
+
+/* Agenda Items Header */
+.agenda-items-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.agenda-items-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.agenda-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #0073aa;
+}
+
+.agenda-header h2 {
+    margin: 0;
+    color: #0073aa;
+}
+
+.add-agenda-item {
+    background: #00a32a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.add-agenda-item:hover {
+    background: #008a20;
+}
+
+.agenda-sortable {
+    min-height: 400px;
+}
+
+.agenda-item {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.agenda-item:hover {
+    border-color: #0073aa;
+    box-shadow: 0 2px 8px rgba(0,115,170,0.2);
+}
+
+.agenda-item.ui-sortable-helper {
+    transform: rotate(3deg);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.agenda-item-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    background: linear-gradient(135deg, #f1f1f1 0%, #e6e6e6 100%);
+    border-bottom: 1px solid #ddd;
+    cursor: move;
+    border-radius: 6px 6px 0 0;
+}
+
+.alpha-identifier {
+    background: #0073aa;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 50%;
+    margin-right: 12px;
+    min-width: 24px;
+    text-align: center;
+    display: inline-block;
+}
+
+.item-title {
+    flex: 1;
+    font-weight: 600;
+    color: #333;
+    font-size: 15px;
+}
+
+.item-controls {
+    display: flex;
+    gap: 5px;
+}
+
+.toggle-item, .remove-item {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 3px;
+    transition: background 0.2s ease;
+    color: #666;
+}
+
+.toggle-item:hover {
+    background: #ddd;
+    color: #333;
+}
+
+.remove-item:hover {
+    background: #d63638;
+    color: white !important;
+}
+
+.remove-item {
+    font-weight: bold;
+}
+
+.agenda-item-content {
+    padding: 15px;
+    display: block;
+}
+
+.agenda-item.collapsed .agenda-item-content {
+    display: none;
+}
+
+.agenda-item.collapsed .toggle-item {
+    transform: rotate(-90deg);
+}
+
+.agenda-item-content label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    color: #333;
+}
+
+.agenda-item-content label:first-child {
+    margin-top: 0;
+}
+
+.agenda-item-content input,
+.agenda-item-content textarea,
+.agenda-item-content select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.agenda-item-content input:focus,
+.agenda-item-content textarea:focus,
+.agenda-item-content select:focus {
+    border-color: #0073aa;
+    box-shadow: 0 0 0 2px rgba(0,115,170,0.2);
+    outline: none;
+}
+
+.study-topics {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    background: #fafafa;
+}
+
+.topic-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #eee;
+}
+
+.topic-inputs {
+    display: grid;
+    grid-template-columns: 2fr 1fr 100px;
+    gap: 10px;
+}
+
+.add-topic {
+    background: #0073aa;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.add-topic:hover {
+    background: #005a87;
+}
+
+.resolutions-selector select {
+    min-height: 120px;
+}
+
+/* Enhanced list management styles */
+.minutes-list,
+.communications-list,
+.future-items-list {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    background: #fafafa;
+}
+
+.minute-row,
+.communication-row,
+.future-item-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 30px;
+    gap: 10px;
+    margin-bottom: 10px;
+    align-items: start;
+}
+
+.communication-row {
+    grid-template-columns: 1fr 2fr 30px;
+}
+
+.add-minute,
+.add-communication,
+.add-future-item,
+.remove-minute,
+.remove-communication,
+.remove-future-item,
+.remove-topic {
+    background: #0073aa;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.remove-minute,
+.remove-communication,
+.remove-future-item,
+.remove-topic {
+    background: #d63638;
+    padding: 4px 8px;
+}
+
+.add-minute:hover,
+.add-communication:hover,
+.add-future-item:hover {
+    background: #005a87;
+}
+
+.remove-minute:hover,
+.remove-communication:hover,
+.remove-future-item:hover,
+.remove-topic:hover {
+    background: #b32d2e;
+}
+
+/* Consent Agenda Styles */
+.consent-agenda-section {
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e1e5e9;
+}
+
+.consent-agenda-section label {
+    font-weight: 600;
+    color: #0073aa;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.no-resolutions-notice {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 4px;
+    padding: 15px;
+    color: #856404;
+}
+
+.no-resolutions-notice p {
+    margin: 0 0 10px 0;
+}
+
+.no-resolutions-notice ul {
+    margin: 10px 0 0 20px;
+    padding: 0;
+}
+
+.no-resolutions-notice li {
+    margin-bottom: 5px;
+}
+
+.resolutions-auto-list {
+    background: white;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    overflow: hidden;
+}
+
+.info-text {
+    background: #e7f3ff;
+    margin: 0;
+    padding: 12px 15px;
+    border-bottom: 1px solid #ddd;
+    color: #0073aa;
+    font-size: 14px;
+}
+
+.resolutions-preview-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.resolution-preview-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f1;
+    transition: background-color 0.2s ease;
+}
+
+.resolution-preview-item:last-child {
+    border-bottom: none;
+}
+
+.resolution-preview-item:hover {
+    background: #f8f9fa;
+}
+
+.resolution-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.resolution-number {
+    background: #0073aa;
+    color: white;
+    font-weight: 600;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 12px;
+    margin-right: 10px;
+    min-width: 50px;
+    text-align: center;
+    letter-spacing: 0.5px;
+}
+
+.resolution-title {
+    font-weight: 600;
+    color: #333;
+    flex: 1;
+    font-size: 14px;
+}
+
+.resolution-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.resolution-meta .subject {
+    color: #646970;
+    font-size: 13px;
+    flex: 1;
+    min-width: 200px;
+}
+
+.fiscal-badge {
+    background: #d63638;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.consent-agenda-note {
+    background: #f0f6fc;
+    border-top: 1px solid #ddd;
+    padding: 12px 15px;
+}
+
+.consent-agenda-note p {
+    margin: 0;
+    color: #0073aa;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.loading-resolutions,
+.error-loading {
+    text-align: center;
+    padding: 20px;
+    color: #646970;
+}
+
+.loading-resolutions::before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #0073aa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    vertical-align: middle;
+}
+
+.error-loading {
+    background: #fcebea;
+    color: #d63638;
+    border-radius: 4px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Right Column Styles */
+.meeting-details-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.meeting-title-box,
+.meeting-taxonomy-box,
+.publish-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.meeting-title-box label,
+.meeting-taxonomy-box label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.meeting-title-box input,
+.meeting-taxonomy-box select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.publish-box {
+    border-left: 4px solid #0073aa;
+}
+
+.publish-header {
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.publish-header h3 {
+    margin: 0;
+    color: #0073aa;
+    font-size: 16px;
+}
+
+.status-row,
+.date-row {
+    margin-bottom: 15px;
+}
+
+.status-row label,
+.date-row label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.status-row select,
+.date-row input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.publish-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.publish-actions .button {
+    justify-content: center;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Loading and Success States */
+.agenda-item.saving {
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.agenda-item.saved {
+    border-color: #00a32a;
+    background: #f0f8ff;
+}
+
+.save-indicator {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: #00a32a;
+    color: white;
+    font-size: 11px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.agenda-item.saved .save-indicator {
+    opacity: 1;
+}
+
+/* Drag Placeholder */
+.ui-sortable-placeholder {
+    background: #e3f2fd;
+    border: 2px dashed #2196f3;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    height: 60px;
+}
+
+/* Modal Styles */
+.agenda-item-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.agenda-item-modal {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    background: #f8f9fa;
+    border-radius: 8px 8px 0 0;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: #0073aa;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-modal:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.modal-content {
+    padding: 20px;
+}
+
+.item-type-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.item-type-btn {
+    background: #f8f9fa;
+    border: 2px solid #ddd;
+    padding: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.item-type-btn:hover {
+    background: #e9ecef;
+    border-color: #0073aa;
+    color: #0073aa;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 115, 170, 0.2);
+}
+
+/* Enhanced Status Indicators */
+.agenda-item.saving::after {
+    content: "Saving...";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #f0a500;
+    color: white;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+}
+
+.agenda-item.saved::after {
+    content: "Saved ✓";
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #00a32a;
+    color: white;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-weight: 500;
+    animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translateY(-5px); }
+    20% { opacity: 1; transform: translateY(0); }
+    80% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-5px); }
+}
+
+/* Enhanced Form Controls */
+.resolutions-selector {
+    position: relative;
+}
+
+.resolutions-selector .description {
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+
+.agenda-item-content select[multiple] {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Improved Focus States */
+.agenda-item:focus-within {
+    border-color: #0073aa;
+    box-shadow: 0 0 0 2px rgba(0, 115, 170, 0.2);
+}
+
+/* Loading States */
+.button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.button.loading {
+    position: relative;
+}
+
+.button.loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -8px 0 0 -8px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+/* Notification Styles */
+.notice {
+    padding: 12px 15px;
+    margin: 5px 0;
+    border-left: 4px solid #0073aa;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 0 4px 4px 0;
+}
+
+.notice-success {
+    border-left-color: #00a32a;
+}
+
+.notice-error {
+    border-left-color: #d63638;
+}
+
+.notice-dismiss {
+    background: none;
+    border: none;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #666;
+}
+
+.notice-dismiss:hover {
+    color: #333;
+}
+
+/* Admin List Columns */
+.column-resolution_number {
+    width: 100px;
+}
+
+.column-meeting {
+    width: 200px;
+}
+
+.column-status {
+    width: 120px;
+}
+
+/* Status indicators for admin */
+.status-draft { color: #646970; }
+.status-submit_approval { color: #b26900; font-weight: 600; }
+.status-approved { color: #00a32a; font-weight: 600; }
+.status-denied { color: #d63638; font-weight: 600; }
+.status-publish { color: #0073aa; font-weight: 600; }
+
+/* Meeting resolutions table styles */
+.meeting-resolutions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+.meeting-resolutions-table th,
+.meeting-resolutions-table td {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.meeting-resolutions-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+}
+
+.meeting-resolutions-list {
+    list-style-type: decimal;
+    padding-left: 2em;
+}
+
+.meeting-resolutions-list li {
+    margin-bottom: 0.5em;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .agenda-builder-layout {
+        flex-direction: column;
+    }
+    
+    .meeting-details-column {
+        order: -1;
+    }
+    
+    .meeting-header-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+    
+    .meeting-duration-field {
+        grid-column: span 2;
+    }
+    
+    .topic-inputs {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+    
+    .item-type-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .agenda-type-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .agenda-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .item-controls {
+        margin-top: 10px;
+    }
+    
+    .agenda-item-modal {
+        width: 95%;
+        margin: 20px;
+    }
+    
+    .meeting-header-row {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+    
+    .topic-inputs {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+    
+    .minute-row,
+    .communication-row,
+    .future-item-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+    
+    .remove-minute,
+    .remove-communication,
+    .remove-future-item,
+    .remove-topic {
+        width: 100%;
+        height: 30px;
+        margin-top: 5px;
+    }
+    
+    .item-type-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .publish-actions {
+        position: sticky;
+        bottom: 0;
+        background: white;
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+    }
+    
+    .resolution-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    
+    .resolution-number {
+        margin-right: 0;
+        align-self: flex-start;
+    }
+    
+    .resolution-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    
+    .resolution-meta .subject {
+        min-width: auto;
+    }
+    
+    .resolutions-preview-list {
+        max-height: 250px;
+    }
+}
+
+
+/* Add this CSS to make sure drag handles are visible - add to your agenda-builder.css */
+
+/* Make drag handles very visible for debugging */
+.resolution-drag-handle {
+    color: #0073aa !important;
+    font-size: 18px !important;
+    cursor: move !important;
+    padding: 8px !important;
+    border: 1px solid #ddd !important;
+    border-radius: 3px !important;
+    background: #f8f9fa !important;
+    transition: all 0.2s ease !important;
+    user-select: none !important;
+    min-width: 30px !important;
+    text-align: center !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.resolution-drag-handle:hover {
+    background: #0073aa !important;
+    color: white !important;
+    border-color: #0073aa !important;
+    transform: scale(1.1) !important;
+}
+
+/* Ensure sortable resolutions are properly laid out */
+.sortable-resolutions {
+    position: relative !important;
+    min-height: 50px !important;
+    border: 1px dashed #ccc !important;
+    padding: 5px !important;
+}
+
+.sortable-resolution {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+    padding: 12px !important;
+    margin: 5px 0 !important;
+    border: 1px solid #ddd !important;
+    border-radius: 4px !important;
+    background: white !important;
+    transition: all 0.2s ease !important;
+    cursor: default !important;
+}
+
+.sortable-resolution:hover {
+    background: #f8f9fa !important;
+    border-color: #0073aa !important;
+    box-shadow: 0 2px 4px rgba(0,115,170,0.1) !important;
+}
+
+/* Visual feedback during drag */
+.sortable-resolution.resolution-dragging {
+    background: #fff3cd !important;
+    border: 2px solid #ffc107 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    transform: rotate(2deg) !important;
+    z-index: 1000 !important;
+}
+
+.resolution-sort-placeholder {
+    height: 80px !important;
+    background: #e3f2fd !important;
+    border: 3px dashed #2196f3 !important;
+    border-radius: 6px !important;
+    margin: 5px 0 !important;
+    position: relative !important;
+}
+
+.resolution-sort-placeholder::before {
+    content: "📍 Drop resolution here" !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    color: #2196f3 !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+}
+
+/* Debug border around entire consent agenda section */
+.consent-agenda-section {
+    border: 2px solid #ff6b6b !important;
+    padding: 15px !important;
+    margin: 10px 0 !important;
+    background: #fff !important;
+}
+
+/* Make resolution content area flex properly */
+.resolution-content {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+/* Ensure proper spacing and layout */
+.resolution-header {
+    display: flex !important;
+    align-items: center !important;
+    margin-bottom: 8px !important;
+    gap: 10px !important;
+}
+
+.resolution-number {
+    background: #0073aa !important;
+    color: white !important;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    padding: 4px 8px !important;
+    border-radius: 12px !important;
+    min-width: 60px !important;
+    text-align: center !important;
+    flex-shrink: 0 !important;
+}
+
+.resolution-title {
+    font-weight: 600 !important;
+    color: #333 !important;
+    font-size: 14px !important;
+    line-height: 1.3 !important;
+    flex: 1 !important;
+}
+
+/* Debug info */
+.sortable-resolutions::before {
+    content: "🔧 SORTABLE CONTAINER (should be draggable)" !important;
+    display: block !important;
+    background: #ffeb3b !important;
+    color: #333 !important;
+    padding: 5px !important;
+    font-size: 12px !important;
+    font-weight: bold !important;
+    text-align: center !important;
+    margin-bottom: 10px !important;
+}
+
+/* When sortable is active, remove debug styling */
+.sortable-resolutions.ui-sortable::before {
+    content: "✅ SORTABLE ACTIVE - Drag the ⋮⋮ handles!" !important;
+    background: #4caf50 !important;
+    color: white !important;
+}
+
+/* Additional visual cues */
+.resolution-drag-handle::before {
+    content: "DRAG" !important;
+    position: absolute !important;
+    top: -15px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    font-size: 8px !important;
+    color: #666 !important;
+    background: white !important;
+    padding: 1px 3px !important;
+    border-radius: 2px !important;
+    font-weight: bold !important;
+}

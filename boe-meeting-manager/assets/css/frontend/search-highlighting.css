@@ -1,0 +1,196 @@
+/* File: assets/css/frontend/search-highlighting.css */
+/* Search highlighting styles - extracted from inline CSS */
+
+.search-highlight {
+    background-color: #ffcccb !important;
+    color: #000 !important;
+    padding: 2px 4px !important;
+    border-radius: 3px !important;
+    font-weight: 600 !important;
+}
+
+mark.search-highlight {
+    background-color: #ffcccb !important;
+    color: #000 !important;
+}
+
+.search-results-list .search-highlight {
+    background-color: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeaa7;
+}
+
+/* Search form styling */
+.policy-search-form {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 2em;
+    flex-wrap: wrap;
+}
+
+.search-input-wrapper {
+    flex: 1;
+    min-width: 250px;
+}
+
+.policy-search-input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    transition: border-color 0.3s ease;
+}
+
+.policy-search-input:focus {
+    border-color: #0073aa;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 115, 170, 0.1);
+}
+
+.policy-search-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    background: #0073aa;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.policy-search-button:hover {
+    background: #005a87;
+}
+
+/* Search results styling */
+.search-results-meta {
+    margin-bottom: 1.5em;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    color: #666;
+}
+
+.search-result-item {
+    margin-bottom: 2em;
+    padding-bottom: 1.5em;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.search-result-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.policy-code {
+    background: #0073aa;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.search-result-title {
+    margin: 0;
+}
+
+.search-result-title a {
+    color: #0073aa;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.search-result-title a:hover {
+    text-decoration: underline;
+}
+
+.search-result-meta {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.search-result-excerpt {
+    line-height: 1.6;
+    color: #333;
+}
+
+/* No results styling */
+.no-search-results {
+    text-align: center;
+    padding: 3em 0;
+}
+
+.search-suggestions {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: left;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.search-suggestions h3 {
+    margin-top: 0;
+    color: #0073aa;
+}
+
+.search-suggestions ul {
+    margin-bottom: 0;
+}
+
+/* Policy content formatting improvements */
+.entry-content span {
+    display: inline-block;
+    margin-right: 0.5em;
+}
+
+.entry-content span + span {
+    margin-left: 0.25em;
+}
+
+/* Ensure spans in paragraphs have proper spacing */
+.entry-content p span {
+    margin-right: 0.5em;
+}
+
+.entry-content p span:last-child {
+    margin-right: 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .policy-search-form {
+        flex-direction: column;
+    }
+    
+    .search-input-wrapper {
+        min-width: auto;
+    }
+    
+    .search-result-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .search-result-meta {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .entry-content span {
+        display: inline;
+        margin-right: 0.25em;
+    }
+}
