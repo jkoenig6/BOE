@@ -1,0 +1,122 @@
+/* File: assets/css/frontend/policy-pdf.css */
+/* PDF download link styling extracted from inline styles */
+
+.pdf-download-link {
+    text-align: right;
+    margin-bottom: 12px;
+}
+
+.pdf-download-link a {
+    display: inline-block;
+    transition: transform 0.2s ease;
+}
+
+.pdf-download-link a:hover {
+    transform: scale(1.1);
+}
+
+.pdf-download-link img {
+    height: 32px;
+    width: auto;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+/* Policy header container */
+.policy-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+/* Policy metadata styling */
+.policy-metadata {
+    margin-bottom: 1em;
+    font-size: 1em;
+}
+
+.policy-metadata div {
+    margin-bottom: 0.5em;
+}
+
+.policy-metadata strong {
+    color: #0073aa;
+}
+
+/* Policy debug panel styling */
+.pdf-debug-panel {
+    background: #f0f0f0;
+    padding: 15px;
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.pdf-debug-panel h3 {
+    margin-top: 0;
+    color: #0073aa;
+}
+
+.pdf-debug-panel ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+.pdf-debug-panel li {
+    margin-bottom: 5px;
+}
+
+.pdf-debug-panel code {
+    background: rgba(0,0,0,0.1);
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+/* PDF settings form styling */
+.pdf-settings-section {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 20px;
+    margin: 20px 0;
+}
+
+.pdf-settings-section h3 {
+    margin-top: 0;
+    color: #0073aa;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.pdf-logo-preview {
+    max-width: 200px;
+    max-height: 100px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .policy-header-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .pdf-download-link {
+        text-align: left;
+        order: -1;
+    }
+    
+    .policy-metadata {
+        margin-bottom: 1.5em;
+    }
+    
+    .pdf-debug-panel {
+        padding: 10px;
+    }
+}

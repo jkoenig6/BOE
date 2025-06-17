@@ -1,0 +1,259 @@
+/* Word Document Import Styles - COMPLETE ENHANCED VERSION */
+/* File: assets/css/admin/word-import.css */
+
+.word-import-container {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.word-import-header h4 {
+    margin: 0 0 8px 0;
+    color: #0073aa;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.word-import-header .description {
+    margin: 0 0 15px 0;
+    color: #646970;
+    font-size: 14px;
+}
+
+.word-import-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.file-upload-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 200px;
+}
+
+#select-word-file {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#select-word-file .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.file-name-display {
+    color: #0073aa;
+    font-weight: 500;
+    font-size: 14px;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#import-word-file {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: #0073aa;
+    border-color: #0073aa;
+    color: #fff;
+}
+
+#import-word-file:hover:not(:disabled) {
+    background: #005a87;
+    border-color: #005a87;
+}
+
+#import-word-file:disabled {
+    background: #f0f0f1;
+    border-color: #ddd;
+    color: #a0a5aa;
+    cursor: not-allowed;
+}
+
+#import-word-file .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+/* Progress bar */
+.word-import-progress {
+    margin-top: 15px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #f0f0f1;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0073aa, #005a87);
+    width: 0%;
+    transition: width 0.3s ease;
+    border-radius: 4px;
+}
+
+.progress-text {
+    margin: 0;
+    color: #646970;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* Messages */
+.word-import-messages {
+    margin-top: 15px;
+}
+
+.word-import-messages .notice {
+    margin: 0;
+    padding: 12px;
+}
+
+.word-import-messages .notice p {
+    margin: 0;
+}
+
+/* Policy table styles for imported content */
+.policy-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+    border: 1px solid #000;
+}
+
+.policy-table th,
+.policy-table td {
+    border: 1px solid #000;
+    padding: 8px 12px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.policy-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+.policy-table tbody tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.policy-table tbody tr:hover {
+    background: #f0f8ff;
+}
+
+/* Legal reference styles for imported content */
+.legal-reference {
+    font-weight: 600;
+    margin: 0.5em 0;
+    color: #333;
+}
+
+/* Enhanced list styles for imported content */
+.entry-content ol {
+    margin-left: 0;
+    padding-left: 1.5em;
+    counter-reset: item;
+}
+
+.entry-content ol li {
+    display: block;
+    margin-bottom: 0.5em;
+}
+
+.entry-content ol li:before {
+    content: counters(item, ".") ". ";
+    counter-increment: item;
+    font-weight: bold;
+}
+
+/* Preserve Word document list numbering */
+.entry-content ol[start] {
+    counter-reset: item calc(attr(start) - 1);
+}
+
+/* Legal citation formatting */
+.entry-content ol li:has-text("U.S.C."),
+.entry-content ol li:has-text("C.R.S."),
+.entry-content ol li:has-text("C.F.R.") {
+    font-style: normal;
+    margin-bottom: 0.25em;
+}
+
+/* List paragraph styles for imported content */
+.list-paragraph {
+    margin-left: 20px;
+    margin-bottom: 0.5em;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .word-import-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .file-upload-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+        min-width: auto;
+    }
+    
+    .file-name-display {
+        max-width: none;
+        text-align: center;
+        margin-top: 5px;
+    }
+    
+    #import-word-file {
+        justify-content: center;
+    }
+}
+
+/* Animation for success states */
+.word-import-container.success {
+    border-color: #00a32a;
+    box-shadow: 0 2px 4px rgba(0,163,42,0.2);
+    transition: all 0.3s ease;
+}
+
+.word-import-container.error {
+    border-color: #d63638;
+    box-shadow: 0 2px 4px rgba(214,54,56,0.2);
+    transition: all 0.3s ease;
+}
+
+/* Drag and drop enhancement (future feature) */
+.word-import-container.drag-over {
+    border-color: #0073aa;
+    background: #f0f8ff;
+    border-style: dashed;
+}
+
+/* Loading state */
+.word-import-container.loading {
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+.word-import-container.loading .word-import-controls {
+    filter: blur(1px);
+}
